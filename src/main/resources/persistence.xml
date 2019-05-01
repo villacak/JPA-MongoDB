@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="NoSQLPersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <class>au.com.mongodb.test.model.EventModel</class>
+        <class>au.com.mongodb.test.model.SystemMetadataModel</class>
+
+        <!-- For MongoDB -->
+        <properties>
+            <property name="eclipselink.target-database"
+                      value="org.eclipse.persistence.nosql.adapters.mongo.MongoPlatform"/>
+            <property name="eclipselink.nosql.connection-spec"
+                      value="org.eclipse.persistence.nosql.adapters.mongo.MongoConnectionSpec"/>
+            <property name="eclipselink.nosql.property.mongo.port" value="27017"/>
+            <property name="eclipselink.nosql.property.mongo.host" value="127.0.0.1"/>
+            <property name="eclipselink.nosql.property.mongo.db" value="jpaNoSQLTestDB"/>
+            <property name="eclipselink.logging.level" value="FINEST"/>
+        </properties>
+    </persistence-unit>
+</persistence>
