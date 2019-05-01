@@ -2,6 +2,7 @@ package au.com.mongodb.test.persistence;
 
 import au.com.mongodb.test.enums.EvenSearchField;
 import au.com.mongodb.test.model.EventModel;
+import au.com.mongodb.test.persistence.entities.Event;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,7 +36,7 @@ public class NoSQLCRUDMaster {
      * @param valueForSearch
      * @return
      */
-    public List<EventModel> search(final EvenSearchField evenSearchField, final String valueForSearch) {
+    public List<Event> search(final EvenSearchField evenSearchField, final String valueForSearch) {
         final String namedQuery;
         final String keyValue;
         if (evenSearchField.equals(EvenSearchField.ID) && valueForSearch != null) {
@@ -58,7 +59,7 @@ public class NoSQLCRUDMaster {
             keyValue = null;
         }
 
-        final List<EventModel> toReturn;
+        final List<Event> toReturn;
         if (namedQuery == null) {
             toReturn = null;
         } else {
@@ -74,7 +75,7 @@ public class NoSQLCRUDMaster {
 
 
     /**
-     * Generic Persistence
+     * Generic Persistence Save
      *
      * @param entity
      * @param <T>
@@ -89,7 +90,7 @@ public class NoSQLCRUDMaster {
 
 
     /**
-     * Generic Persistence
+     * Generic Persistence Update
      *
      * @param entity
      * @param <T>
@@ -101,6 +102,24 @@ public class NoSQLCRUDMaster {
         em.getTransaction().commit();
         return entity;
     }
+
+
+
+    /**
+     * Generic Persistence Delete
+     *
+     * @param entity
+     * @param <T>
+     * @return
+     */
+    public <T extends Object> T delete(final T entity) {
+        em.getTransaction().begin();
+        em.remove(entity);
+        em.getTransaction().commit();
+        return entity;
+    }
+
+
 
 
     /**
