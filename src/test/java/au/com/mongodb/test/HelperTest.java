@@ -14,34 +14,6 @@ import java.util.UUID;
 
 public class HelperTest {
 
-    public static boolean checkifMongoIsRunning() {
-        boolean toReturn = false;
-        BufferedReader input = null;
-        try {
-            String line;
-            final ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", "pgrep mongod");
-            pb.redirectErrorStream(true);
-            final Process p = pb.start();
-            final InputStreamReader isr = new InputStreamReader(p.getInputStream());
-            input = new BufferedReader(isr);
-            while ((line = input.readLine()) != null) {
-                if (line != null)
-                    toReturn = true;
-                    break;
-            }
-        } catch (Exception err) {
-            err.printStackTrace();
-        } finally {
-            try {
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return toReturn;
-    }
-
-
     public Event getEventEntityForTest() {
         SystemMetadata systemMetadata = new SystemMetadata();
         systemMetadata.setCreateBy("Test");

@@ -1,11 +1,9 @@
 package au.com.mongodb.test.persistence;
 
 import au.com.mongodb.test.enums.EvenSearchField;
-import au.com.mongodb.test.model.EventModel;
-import au.com.mongodb.test.model.SystemMetadataModel;
-import au.com.mongodb.test.HelperTest;
 import au.com.mongodb.test.persistence.entities.Event;
 import au.com.mongodb.test.persistence.entities.SystemMetadata;
+import au.com.mongodb.test.services.v1.health.HealthHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +13,6 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
-import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.*;
 
 public class NoSQLCRUDMasterTest {
@@ -27,7 +24,8 @@ public class NoSQLCRUDMasterTest {
 
     @Before
     public void startup() throws Exception {
-        boolean isRunning = HelperTest.checkifMongoIsRunning();
+        final HealthHelper helper = new HealthHelper();
+        boolean isRunning = helper.checkifMongoIsRunning();
         if (isRunning) {
             systemMetadata = new SystemMetadata();
             systemMetadata.setCreateBy("Test");
@@ -38,6 +36,7 @@ public class NoSQLCRUDMasterTest {
             event.setAccountNumber("accountNumber");
             event.setBenefitReason("benefitReason");
             event.setContribuitionType("contribuitionType");
+            event.setReferenceNumber("referenceNumber");
             event.setScheme("scheme");
             event.setSchemeMembershipNumber("schemeMembershipNumber");
             event.setDescription("Testing " + UUID.randomUUID());
@@ -59,47 +58,103 @@ public class NoSQLCRUDMasterTest {
     }
 
 
-
     @Test
-    public void testSuccessSaveThenDelete() {
-        Event saved = crud.saveData(event);
-        assertNotNull(saved);
+    public void testSuccessSaveSearchThenDelete() {
+        Event saved = null;
+        try {
+            saved = crud.saveData(event);
+            assertNotNull(saved);
 
-        List<Event> search = crud.search(EvenSearchField.ACCOUNT_ID, "accountID");
-        assertNotNull(search);
-        assertTrue(search.size() > 0);
+            List<Event> search = crud.search(EvenSearchField.ACCOUNT_ID, "accountID");
+            assertNotNull(search);
+            assertTrue(search.size() > 0);
 
-        Event fromSearch = search.get(0);
-        assertEquals(fromSearch, saved);
+            Event fromSearch = search.get(0);
+            assertTrue(fromSearch.equals(saved));
 
-        crud.delete(saved);
+        } finally {
+            if (saved != null) {
+                crud.delete(saved);
+            }
+        }
     }
 
 
     @Test
-    public void testSuccessSaveUpdateThenDelete() {
-        Event saved = crud.saveData(event);
-        assertNotNull(saved);
+    public void testSuccessSaveSearchUpdateThenDelete() {
+        Event saved = null;
+        Event update = null;
+        try {
+            saved = crud.saveData(event);
+            assertNotNull(saved);
 
-        List<Event> search = crud.search(EvenSearchField.ACCOUNT_ID, "accountID");
-        assertNotNull(search);
-        assertTrue(search.size() > 0);
+            List<Event> search = crud.search(EvenSearchField.ACCOUNT_ID, "accountID");
+            assertNotNull(search);
+            assertTrue(search.size() > 0);
 
-        Event fromSearch = search.get(0);
-        assertEquals(fromSearch, saved);
+            Event fromSearch = search.get(0);
+            assertEquals(fromSearch, saved);
 
-        fromSearch.setAccountId("UpdatedAccountId");
-        Event update = crud.mergeData(fromSearch);
+            fromSearch.setAccountId("UpdatedAccountId");
+            update = crud.mergeData(fromSearch);
 
-        search = crud.search(EvenSearchField.ACCOUNT_ID, "UpdatedAccountId");
-        assertNotNull(search);
-        assertTrue(search.size() > 0);
+            search = crud.search(EvenSearchField.ACCOUNT_ID, "UpdatedAccountId");
+            assertNotNull(search);
+            assertTrue(search.size() > 0);
 
-        fromSearch = search.get(0);
-        assertEquals(fromSearch, update);
+            fromSearch = search.get(0);
+            assertEquals(fromSearch, update);
 
-        crud.delete(update);
+        } finally {
+            if (update == null) {
+                crud.delete(saved);
+            } else {
+                crud.delete(update);
+            }
+        }
+
     }
 
 
+    @Test
+    public void testSuccessSaveSearchsThenDelete() {
+        Event saved = null;
+        try {
+            saved = crud.saveData(event);
+            assertNotNull(saved);
+
+            List<Event> search = crud.search(EvenSearchField.ACCOUNT_ID, "accountID");
+            assertNotNull(search);
+            assertTrue(search.size() > 0);
+
+            Event fromSearch = search.get(0);
+            assertEquals(fromSearch, saved);
+
+            search = crud.search(EvenSearchField.ACCOUNT_NUMBER, "accountNumber");
+            assertNotNull(search);
+            assertTrue(search.size() > 0);
+
+            fromSearch = search.get(0);
+            assertEquals(fromSearch, saved);
+
+            search = crud.search(EvenSearchField.REFERENCE_NUMBER, "referenceNumber");
+            assertNotNull(search);
+            assertTrue(search.size() > 0);
+
+            fromSearch = search.get(0);
+            assertEquals(fromSearch, saved);
+
+
+            search = crud.search(EvenSearchField.ID, saved.get_id());
+            assertNotNull(search);
+            assertTrue(search.size() > 0);
+
+            fromSearch = search.get(0);
+            assertEquals(fromSearch, saved);
+        } finally {
+            if (saved != null) {
+                crud.delete(saved);
+            }
+        }
+    }
 }

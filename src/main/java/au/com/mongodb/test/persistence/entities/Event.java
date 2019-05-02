@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 @NoSql(dataFormat = DataFormatType.MAPPED)
 @NamedQueries({
-        @NamedQuery(name = "event.findById", query = "SELECT e FROM Event e WHERE e._id = :id"),
+        @NamedQuery(name = "event.findById", query = "SELECT e FROM Event e WHERE e._id = :_id"),
         @NamedQuery(name = "event.findByAccountId", query = "SELECT e FROM Event e WHERE e.accountId = :accountId"),
         @NamedQuery(name = "event.findByReferenceNumber", query = "SELECT e FROM Event e WHERE e.referenceNumber = :referenceNumber"),
         @NamedQuery(name = "event.findByAccountNumber", query = "SELECT e FROM Event e WHERE e.accountNumber = :accountNumber"),

@@ -28,8 +28,6 @@ public class EventMapperTest {
     @Before
     public void startup() {
         helperTest = new HelperTest();
-
-
     }
 
 

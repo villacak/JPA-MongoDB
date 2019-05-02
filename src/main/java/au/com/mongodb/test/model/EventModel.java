@@ -1,6 +1,9 @@
 package au.com.mongodb.test.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -258,5 +261,17 @@ public class EventModel implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(primaryKey, accountID, refNumber, accNumber, scheme, schemeMembershipNumber, type, dateRequested, effectiveDate, processedDate, totalAmount, description, status, paymentType, redemptionType, benefitReason, rolloverInstitution, feeType, contribuitionType, medatadata);
+    }
+
+
+    public String toJSON() {
+        final ObjectMapper mapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = mapper.writeValueAsString(this);
+        } catch (IOException ioe) {
+            json = null;
+        }
+        return json;
     }
 }

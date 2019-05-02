@@ -1,6 +1,6 @@
 package au.com.mongodb.test.main;
 
-import au.com.mongodb.test.services.v1.HealthService;
+import au.com.mongodb.test.services.v1.health.HealthService;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
