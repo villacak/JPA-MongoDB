@@ -1,5 +1,6 @@
 package au.com.mongodb.test.services.v1.validations;
 
+import au.com.mongodb.test.enums.EventSearchField;
 import au.com.mongodb.test.model.EventModel;
 
 public class CrudMongoDbValidations {
@@ -18,17 +19,17 @@ public class CrudMongoDbValidations {
 
 
     private boolean validateModelMandatoryFields(final EventModel model) {
-        boolean isAccountIdValid = validateMandatoryStrings(model.getAccountID());
-        boolean isReferenceNumberValid = validateMandatoryStrings(model.getRefNumber());
-        boolean isAccountNumberValid = validateMandatoryStrings(model.getAccNumber());
-        boolean isSchemeMembershipNumberValid = validateMandatoryStrings(model.getSchemeMembershipNumber());
+        boolean isAccountIdValid = validateMandatoryString(model.getAccountID());
+        boolean isReferenceNumberValid = validateMandatoryString(model.getRefNumber());
+        boolean isAccountNumberValid = validateMandatoryString(model.getAccNumber());
+        boolean isSchemeMembershipNumberValid = validateMandatoryString(model.getSchemeMembershipNumber());
 
         boolean areValid = isAccountIdValid && isReferenceNumberValid && isAccountNumberValid && isSchemeMembershipNumberValid;
         return areValid;
     }
 
 
-    private boolean validateMandatoryStrings(final String value) {
+    public boolean validateMandatoryString(final String value) {
         final boolean isValid;
         if (value != null && !value.equals(EMPTY)) {
             isValid = true;
@@ -37,4 +38,18 @@ public class CrudMongoDbValidations {
         }
         return isValid;
     }
+
+
+    public EventSearchField getSearchFieldEnum(final String field) {
+        EventSearchField toReturn = null;
+        final EventSearchField[] fields = EventSearchField.values();
+        for(EventSearchField tempField: fields) {
+            if (tempField.getField().equalsIgnoreCase(field)) {
+                toReturn = tempField;
+                break;
+            }
+        }
+        return toReturn;
+    }
+
 }

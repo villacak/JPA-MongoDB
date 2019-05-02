@@ -1,7 +1,6 @@
 package au.com.mongodb.test.persistence;
 
-import au.com.mongodb.test.enums.EvenSearchField;
-import au.com.mongodb.test.model.EventModel;
+import au.com.mongodb.test.enums.EventSearchField;
 import au.com.mongodb.test.persistence.entities.Event;
 
 import javax.persistence.EntityManager;
@@ -30,30 +29,30 @@ public class NoSQLCRUDMaster {
     /**
      * Search
      *
-     * @param evenSearchField
-     * {@link EvenSearchField}
+     * @param eventSearchField
+     * {@link EventSearchField}
      *
      * @param valueForSearch
      * @return
      */
-    public List<Event> search(final EvenSearchField evenSearchField, final String valueForSearch) {
+    public List<Event> search(final EventSearchField eventSearchField, final String valueForSearch) {
         final String namedQuery;
         final String keyValue;
-        if (evenSearchField.equals(EvenSearchField.ID) && valueForSearch != null) {
+        if (eventSearchField.equals(EventSearchField.ID) && valueForSearch != null) {
             namedQuery = "event.findById";
-            keyValue = EvenSearchField.ID.getField();
-        } else if (evenSearchField.equals(EvenSearchField.ACCOUNT_ID) && valueForSearch != null) {
+            keyValue = EventSearchField.ID.getField();
+        } else if (eventSearchField.equals(EventSearchField.ACCOUNT_ID) && valueForSearch != null) {
             namedQuery = "event.findByAccountId";
-            keyValue = EvenSearchField.ACCOUNT_ID.getField();
-        } else if (evenSearchField.equals(EvenSearchField.REFERENCE_NUMBER) && valueForSearch != null) {
+            keyValue = EventSearchField.ACCOUNT_ID.getField();
+        } else if (eventSearchField.equals(EventSearchField.REFERENCE_NUMBER) && valueForSearch != null) {
             namedQuery = "event.findByReferenceNumber";
-            keyValue = EvenSearchField.REFERENCE_NUMBER.getField();
-        } else if (evenSearchField.equals(EvenSearchField.ACCOUNT_NUMBER) && valueForSearch != null) {
+            keyValue = EventSearchField.REFERENCE_NUMBER.getField();
+        } else if (eventSearchField.equals(EventSearchField.ACCOUNT_NUMBER) && valueForSearch != null) {
             namedQuery = "event.findByAccountNumber";
-            keyValue = EvenSearchField.ACCOUNT_NUMBER.getField();
-        } else if (evenSearchField.equals(EvenSearchField.SCHEME_MEMBERSHIP_NUMBER) && valueForSearch != null) {
+            keyValue = EventSearchField.ACCOUNT_NUMBER.getField();
+        } else if (eventSearchField.equals(EventSearchField.SCHEME_MEMBERSHIP_NUMBER) && valueForSearch != null) {
             namedQuery = "event.findBySchemeMembershipNumber";
-            keyValue = EvenSearchField.SCHEME_MEMBERSHIP_NUMBER.getField();
+            keyValue = EventSearchField.SCHEME_MEMBERSHIP_NUMBER.getField();
         } else {
             namedQuery = null;
             keyValue = null;

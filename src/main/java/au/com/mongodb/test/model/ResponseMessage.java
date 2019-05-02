@@ -5,16 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class ErrorMessage implements Serializable {
+public class ResponseMessage implements Serializable {
 
     private int httpCode;
     private String message;
 
-    public ErrorMessage() {
+    public ResponseMessage() {
         super();
     }
 
-    public ErrorMessage(int httpCode, String message) {
+    public ResponseMessage(int httpCode, String message) {
         this.httpCode = httpCode;
         this.message = message;
     }

@@ -1,6 +1,6 @@
 package au.com.mongodb.test.persistence;
 
-import au.com.mongodb.test.enums.EvenSearchField;
+import au.com.mongodb.test.enums.EventSearchField;
 import au.com.mongodb.test.persistence.entities.Event;
 import au.com.mongodb.test.persistence.entities.SystemMetadata;
 import au.com.mongodb.test.services.v1.health.HealthHelper;
@@ -65,7 +65,7 @@ public class NoSQLCRUDMasterTest {
             saved = crud.saveData(event);
             assertNotNull(saved);
 
-            List<Event> search = crud.search(EvenSearchField.ACCOUNT_ID, "accountID");
+            List<Event> search = crud.search(EventSearchField.ACCOUNT_ID, "accountID");
             assertNotNull(search);
             assertTrue(search.size() > 0);
 
@@ -88,7 +88,7 @@ public class NoSQLCRUDMasterTest {
             saved = crud.saveData(event);
             assertNotNull(saved);
 
-            List<Event> search = crud.search(EvenSearchField.ACCOUNT_ID, "accountID");
+            List<Event> search = crud.search(EventSearchField.ACCOUNT_ID, "accountID");
             assertNotNull(search);
             assertTrue(search.size() > 0);
 
@@ -98,7 +98,7 @@ public class NoSQLCRUDMasterTest {
             fromSearch.setAccountId("UpdatedAccountId");
             update = crud.mergeData(fromSearch);
 
-            search = crud.search(EvenSearchField.ACCOUNT_ID, "UpdatedAccountId");
+            search = crud.search(EventSearchField.ACCOUNT_ID, "UpdatedAccountId");
             assertNotNull(search);
             assertTrue(search.size() > 0);
 
@@ -123,21 +123,21 @@ public class NoSQLCRUDMasterTest {
             saved = crud.saveData(event);
             assertNotNull(saved);
 
-            List<Event> search = crud.search(EvenSearchField.ACCOUNT_ID, "accountID");
+            List<Event> search = crud.search(EventSearchField.ACCOUNT_ID, "accountID");
             assertNotNull(search);
             assertTrue(search.size() > 0);
 
             Event fromSearch = search.get(0);
             assertEquals(fromSearch, saved);
 
-            search = crud.search(EvenSearchField.ACCOUNT_NUMBER, "accountNumber");
+            search = crud.search(EventSearchField.ACCOUNT_NUMBER, "accountNumber");
             assertNotNull(search);
             assertTrue(search.size() > 0);
 
             fromSearch = search.get(0);
             assertEquals(fromSearch, saved);
 
-            search = crud.search(EvenSearchField.REFERENCE_NUMBER, "referenceNumber");
+            search = crud.search(EventSearchField.REFERENCE_NUMBER, "referenceNumber");
             assertNotNull(search);
             assertTrue(search.size() > 0);
 
@@ -145,7 +145,7 @@ public class NoSQLCRUDMasterTest {
             assertEquals(fromSearch, saved);
 
 
-            search = crud.search(EvenSearchField.ID, saved.get_id());
+            search = crud.search(EventSearchField.ID, saved.get_id());
             assertNotNull(search);
             assertTrue(search.size() > 0);
 

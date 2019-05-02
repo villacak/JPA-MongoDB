@@ -4,7 +4,7 @@ package au.com.mongodb.test.enums;
  * EventModel namedQueries field names
  *
  */
-public enum EvenSearchField {
+public enum EventSearchField {
     ID("_id"),
     ACCOUNT_ID("accountId"),
     REFERENCE_NUMBER("referenceNumber"),
@@ -13,7 +13,7 @@ public enum EvenSearchField {
 
     private String field;
 
-    private EvenSearchField(final String field) {
+    private EventSearchField(final String field) {
         this.field = field;
     }
 
