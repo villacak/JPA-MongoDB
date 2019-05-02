@@ -9,6 +9,7 @@ import au.com.mongodb.test.persistence.entities.Event;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventBusiness {
@@ -67,7 +68,12 @@ public class EventBusiness {
                 response = successWithMessage("Nothing found.");
             } else {
                 final ObjectMapper mapper = new ObjectMapper();
-                final String json = mapper.writeValueAsString(events);
+                final List<EventModel> models = new ArrayList<>(events.size());
+                for(Event tempEvent: events) {
+                    final EventModel modelToReturn = EventMapper.MAPPER.mapEventEntityToEventModel(tempEvent);
+                    models.add(modelToReturn);
+                }
+                final String json = mapper.writeValueAsString(models);
                 response = Response.ok().entity(json).build();
             }
         } catch (Exception e) {
