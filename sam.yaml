@@ -10,7 +10,7 @@ Resources:
       CodeUri: target/jpa-mongodb-1.0-lambda-package.zip
       MemorySize: 512
       Policies: AWSLambdaBasicExecutionRole
-      Timeout: 15
+      Timeout: 5
       Events:
         GetResource:
           Type: Api
