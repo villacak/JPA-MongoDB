@@ -169,6 +169,6 @@ public class EventBusinessTest {
         Response resp = EventBusiness.successWithMessage(TEST);
         assertNotNull(resp);
         assertEquals(resp.getStatus(), Response.Status.OK.getStatusCode());
-        assertEquals(resp.getEntity(), TEST);
+        assertTrue(((String)resp.getEntity()).contains(TEST));
     }
 }
