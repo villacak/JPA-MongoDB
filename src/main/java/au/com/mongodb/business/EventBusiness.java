@@ -25,7 +25,6 @@ public class EventBusiness {
             if (isSave) {
                 savedEventEntity = crud.saveData(eventEntity);
             } else {
-                eventEntity.setVersion(eventEntity.getVersion() + 1);
                 savedEventEntity = crud.mergeData(eventEntity);
             }
             final EventModel modelToReturn = EventMapper.MAPPER.mapEventEntityToEventModel(savedEventEntity);

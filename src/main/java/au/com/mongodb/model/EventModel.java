@@ -71,6 +71,7 @@ public class EventModel implements Serializable {
     private SystemMetadataModel medatadata;
 
     @Transient
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private long version;
 
 

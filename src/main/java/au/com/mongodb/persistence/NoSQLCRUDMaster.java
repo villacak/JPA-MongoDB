@@ -83,6 +83,7 @@ public class NoSQLCRUDMaster {
     public <T extends Object> T mergeData(final T entity) {
         em.getTransaction().begin();
         final T returnEntity = em.merge(entity);
+        em.flush();
         em.getTransaction().commit();
         return returnEntity;
     }
